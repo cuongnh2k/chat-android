@@ -10,9 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".HiltApp"
-        android:theme="@style/Theme.LearnAndroid">
+        android:theme="@style/Theme.LearnAndroid"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>

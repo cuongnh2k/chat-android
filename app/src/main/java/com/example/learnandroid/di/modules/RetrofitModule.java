@@ -21,14 +21,14 @@ public class RetrofitModule {
     @Provides
     Retrofit provideRetrofitBuilder() {
         return new Retrofit.Builder()
-                .baseUrl("https://reqres.in/")
+                .baseUrl("http://ec2-13-229-201-209.ap-southeast-1.compute.amazonaws.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
     @Singleton
     @Provides
-    UserApiService getUserApiService(Retrofit retrofit) {
+    UserApiService userApiService(Retrofit retrofit) {
         return retrofit.create(UserApiService.class);
     }
 

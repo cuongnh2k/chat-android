@@ -17,23 +17,23 @@ import retrofit2.http.Query;
  */
 public interface UserApiService {
     @GET("/api/v1/user")
-    Call<BaseResponse<String>> getDetailUser(@Header("Authorization") String accessToken,
-                                             @Header("User-Agent") String userAgent);
+    Call<BaseResponse> getDetailUser(@Header("Authorization") String accessToken,
+                                     @Header("User-Agent") String userAgent);
 
     @GET("/api/v1/user/new-password")
-    Call<BaseResponse<String>> getNewPassword(@Header("User-Agent") String userAgent,
-                                              @Query("email") String email);
+    Call<BaseResponse> getNewPassword(@Header("User-Agent") String userAgent,
+                                      @Query("email") String email);
 
     @PATCH("/api/v1/user")
-    Call<BaseResponse<String>> updateUser(@Header("Authorization") String accessToken,
-                                          @Header("User-Agent") String userAgent,
-                                          @Body UpdateUserReq req);
+    Call<BaseResponse> updateUser(@Header("Authorization") String accessToken,
+                                  @Header("User-Agent") String userAgent,
+                                  @Body UpdateUserReq req);
 
     @POST("/api/v1/user/active")
-    Call<BaseResponse<String>> activeUser(@Header("User-Agent") String userAgent,
-                                          @Body ActiveUserReq req);
+    Call<BaseResponse> activeUser(@Header("User-Agent") String userAgent,
+                                  @Body ActiveUserReq req);
 
     @POST("/api/v1/user/active")
-    Call<BaseResponse<String>> register(@Header("User-Agent") String userAgent,
-                                        @Body RegisterReq req);
+    Call<BaseResponse> register(@Header("User-Agent") String userAgent,
+                                @Body RegisterReq req);
 }

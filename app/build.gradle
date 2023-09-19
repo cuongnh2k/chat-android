@@ -59,4 +59,6 @@ dependencies {
 
     //logger
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
 }

@@ -20,23 +20,23 @@ public class UserRepository {
         this.userApiService = userApiService;
     }
 
-    public Call<BaseResponse<String>> getDetailUser(String accessToken, String userAgent) {
+    public Call<BaseResponse> getDetailUser(String accessToken, String userAgent) {
         return userApiService.getDetailUser(accessToken, userAgent);
     }
 
-    public Call<BaseResponse<String>> getNewPassword(String userAgent, String email) {
+    public Call<BaseResponse> getNewPassword(String userAgent, String email) {
         return userApiService.getNewPassword(userAgent, email);
     }
 
-    public Call<BaseResponse<String>> updateUser(String accessToken, String userAgent, UpdateUserReq req) {
+    public Call<BaseResponse> updateUser(String accessToken, String userAgent, UpdateUserReq req) {
         return userApiService.updateUser(accessToken, userAgent, req);
     }
 
-    public Call<BaseResponse<String>> activeUser(String userAgent, ActiveUserReq req) {
+    public Call<BaseResponse> activeUser(String userAgent, ActiveUserReq req) {
         return userApiService.activeUser(userAgent, req);
     }
 
-    public Call<BaseResponse<String>> register(String userAgent, RegisterReq req) {
+    public Call<BaseResponse> register(String userAgent, RegisterReq req) {
         return userApiService.register(userAgent, req);
     }
 }

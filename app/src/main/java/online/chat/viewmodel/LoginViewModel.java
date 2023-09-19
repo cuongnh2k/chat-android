@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.gson.Gson;
+
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
@@ -22,33 +24,33 @@ import timber.log.Timber;
  */
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
-    private final DeviceRepository userRepository;
+    private final DeviceRepository deviceRepository;
 
     private final MutableLiveData<LoginRes> liveData = new MutableLiveData<>();
 
     private final MutableLiveData<String> errorMessageLiveData = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(DeviceRepository userRepository) {
-        this.userRepository = userRepository;
+    public LoginViewModel(DeviceRepository deviceRepository) {
+        this.deviceRepository = deviceRepository;
     }
 
     public void login(String userAgent, LoginReq req) {
-        Call<BaseResponse<String>> call = userRepository.login(userAgent, req);
-        call.enqueue(new Callback<BaseResponse<String>>() {
+        Call<BaseResponse> call = deviceRepository.login(userAgent, req);
+        call.enqueue(new Callback<BaseResponse>() {
             @Override
-            public void onResponse(@NonNull Call<BaseResponse<String>> call, @NonNull Response<BaseResponse<String>> response) {
+            public void onResponse(@NonNull Call<BaseResponse> call, @NonNull Response<BaseResponse> response) {
                 Timber.d(response.body().toString());
-//                BaseResponse<LoginRes> res = response.body();
-//                if (res.isSuccess()) {
-//                    liveData.setValue(res.getData());
-//                } else {
-//                    errorMessageLiveData.setValue(response.body().getMessage());
-//                }
+                BaseResponse res = response.body();
+                if (res.isSuccess()) {
+                    liveData.setValue(new Gson().fromJson(new Gson().toJson(res.getData()), LoginRes.class));
+                } else {
+                    errorMessageLiveData.setValue(response.body().getMessage());
+                }
             }
 
             @Override
-            public void onFailure(@NonNull Call<BaseResponse<String>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseResponse> call, @NonNull Throwable t) {
                 Timber.d(t);
                 errorMessageLiveData.setValue(t.getMessage());
             }

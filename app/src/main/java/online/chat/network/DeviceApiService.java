@@ -16,19 +16,19 @@ import retrofit2.http.Query;
 public interface DeviceApiService {
 
     @GET("/api/v1/device")
-    Call<BaseResponse<String>> getListDevice(@Header("Authorization") String accessToken,
-                                             @Header("User-Agent") String userAgent,
-                                             @Query("isActivated") Boolean isActivated);
+    Call<BaseResponse> getListDevice(@Header("Authorization") String accessToken,
+                                     @Header("User-Agent") String userAgent,
+                                     @Query("isActivated") Boolean isActivated);
 
     @POST("/api/v1/device/active")
-    Call<BaseResponse<String>> activeDevice(@Header("User-Agent") String userAgent,
-                                            @Body ActiveDeviceReq req);
+    Call<BaseResponse> activeDevice(@Header("User-Agent") String userAgent,
+                                    @Body ActiveDeviceReq req);
 
     @POST("/api/v1/device/login")
-    Call<BaseResponse<String>> login(@Header("User-Agent") String userAgent,
-                                     @Body LoginReq req);
+    Call<BaseResponse> login(@Header("User-Agent") String userAgent,
+                             @Body LoginReq req);
 
     @POST("/api/v1/device/refresh-token")
-    Call<BaseResponse<String>> refreshToken(@Header("Authorization") String refreshToken,
-                                            @Header("User-Agent") String userAgent);
+    Call<BaseResponse> refreshToken(@Header("Authorization") String refreshToken,
+                                    @Header("User-Agent") String userAgent);
 }

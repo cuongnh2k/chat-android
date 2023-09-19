@@ -1,12 +1,12 @@
 package online.chat.network.base;
 
-public class BaseResponse<T> {
+public class BaseResponse {
     private String message;
     private Integer errorCode;
     private boolean success;
-    private T data;
+    private Object data;
 
-    public BaseResponse(String message, Integer errorCode, boolean success, T data) {
+    public BaseResponse(String message, Integer errorCode, boolean success, Object data) {
         this.message = message;
         this.errorCode = errorCode;
         this.success = success;
@@ -37,11 +37,11 @@ public class BaseResponse<T> {
         this.success = success;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

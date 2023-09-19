@@ -19,19 +19,19 @@ public class DeviceRepository {
         this.deviceApiService = deviceApiService;
     }
 
-    public Call<BaseResponse<String>> getListDevice(String accessToken, String userAgent, Boolean isActivated) {
+    public Call<BaseResponse> getListDevice(String accessToken, String userAgent, Boolean isActivated) {
         return deviceApiService.getListDevice(accessToken, userAgent, isActivated);
     }
 
-    public Call<BaseResponse<String>> activeDevice(String userAgent, ActiveDeviceReq req) {
+    public Call<BaseResponse> activeDevice(String userAgent, ActiveDeviceReq req) {
         return deviceApiService.activeDevice(userAgent, req);
     }
 
-    public Call<BaseResponse<String>> login(String userAgent, LoginReq req) {
+    public Call<BaseResponse> login(String userAgent, LoginReq req) {
         return deviceApiService.login(userAgent, req);
     }
 
-    public Call<BaseResponse<String>> refreshToken(String refreshToken, String userAgent) {
+    public Call<BaseResponse> refreshToken(String refreshToken, String userAgent) {
         return deviceApiService.refreshToken(refreshToken, userAgent);
     }
 }

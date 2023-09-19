@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 import online.chat.network.base.BaseResponse;
 import online.chat.network.request.user.LoginReq;
 import online.chat.network.response.user.LoginRes;
-import online.chat.repository.UserRepository;
+import online.chat.repository.DeviceRepository;
 
 import javax.inject.Inject;
 
@@ -23,14 +23,14 @@ import timber.log.Timber;
  */
 @HiltViewModel
 public class LoginViewModel extends ViewModel {
-    private final UserRepository userRepository;
+    private final DeviceRepository userRepository;
 
     private final MutableLiveData<LoginRes> liveData = new MutableLiveData<>();
 
     private final MutableLiveData<String> errorMessageLiveData = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(UserRepository userRepository) {
+    public LoginViewModel(DeviceRepository userRepository) {
         this.userRepository = userRepository;
     }
 

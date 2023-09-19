@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 /**
  * @author hieutt (tora262)
  */
-public interface UserApiService {
+public interface DeviceApiService {
 
     @POST("/api/v1/device/login")
     Call<BaseResponse<LoginRes>> login(@Body LoginReq loginReq);

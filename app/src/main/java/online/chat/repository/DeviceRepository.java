@@ -1,6 +1,6 @@
 package online.chat.repository;
 
-import online.chat.network.UserApiService;
+import online.chat.network.DeviceApiService;
 import online.chat.network.base.BaseResponse;
 import online.chat.network.request.user.LoginReq;
 import online.chat.network.response.user.LoginRes;
@@ -12,11 +12,11 @@ import retrofit2.Call;
 /**
  * @author hieutt (tora262)
  */
-public class UserRepository {
-    private final UserApiService userApiService;
+public class DeviceRepository {
+    private final DeviceApiService userApiService;
 
     @Inject
-    public UserRepository(UserApiService userApiService) {
+    public DeviceRepository(DeviceApiService userApiService) {
         this.userApiService = userApiService;
     }
 

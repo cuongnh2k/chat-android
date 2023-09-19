@@ -1,6 +1,6 @@
 package online.chat.modules;
 
-import online.chat.network.UserApiService;
+import online.chat.network.DeviceApiService;
 
 import javax.inject.Singleton;
 
@@ -28,8 +28,8 @@ public class RetrofitModule {
 
     @Singleton
     @Provides
-    UserApiService userApiService(Retrofit retrofit) {
-        return retrofit.create(UserApiService.class);
+    DeviceApiService userApiService(Retrofit retrofit) {
+        return retrofit.create(DeviceApiService.class);
     }
 
 }

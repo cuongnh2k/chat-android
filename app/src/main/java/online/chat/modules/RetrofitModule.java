@@ -1,13 +1,14 @@
 package online.chat.modules;
 
-import online.chat.network.DeviceApiService;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
+import online.chat.network.DeviceApiService;
+import online.chat.network.FileApiService;
+import online.chat.network.UserApiService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,8 +29,20 @@ public class RetrofitModule {
 
     @Singleton
     @Provides
-    DeviceApiService userApiService(Retrofit retrofit) {
+    DeviceApiService deviceApiService(Retrofit retrofit) {
         return retrofit.create(DeviceApiService.class);
+    }
+
+    @Singleton
+    @Provides
+    FileApiService fileApiService(Retrofit retrofit) {
+        return retrofit.create(FileApiService.class);
+    }
+
+    @Singleton
+    @Provides
+    UserApiService userApiService(Retrofit retrofit) {
+        return retrofit.create(UserApiService.class);
     }
 
 }

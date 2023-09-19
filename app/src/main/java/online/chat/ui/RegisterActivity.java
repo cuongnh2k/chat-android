@@ -1,6 +1,5 @@
 package online.chat.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,49 +14,58 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.regex.Pattern;
 
-import dagger.hilt.android.AndroidEntryPoint;
-import online.chat.databinding.ActivityLoginBinding;
-import online.chat.network.request.device.LoginReq;
+import online.chat.databinding.ActivityRegisterBinding;
+import online.chat.network.request.user.RegisterReq;
 import online.chat.viewmodel.LoginViewModel;
+import online.chat.viewmodel.RegisterViewModel;
 import timber.log.Timber;
 
-/**
- * @author hieutt (tora262)
- */
-@AndroidEntryPoint
-public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = LoginActivity.class.getName();
-    ActivityLoginBinding mBinding;
-    LoginViewModel viewModel;
+public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = RegisterActivity.class.getName();
+    ActivityRegisterBinding mBinding;
+    RegisterViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
+        mBinding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        String accessToken = this.getSharedPreferences("token", Context.MODE_PRIVATE).getString("accessToken", "");
-        if (accessToken != null && !accessToken.equals("")) {
-            startActivity(new Intent(this, MainActivity.class));
-        } else {
-            initView();
-        }
+        viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+        initView();
     }
 
     private void initView() {
         observe();
-        mBinding.btnLogin.setEnabled(false);
+        mBinding.btnRegister.setEnabled(false);
         mBinding.loading.setVisibility(View.INVISIBLE);
-        mBinding.btnLogin.setOnClickListener(view -> {
+        mBinding.btnRegister.setOnClickListener(view -> {
             if (Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[\\w\\W]{8,16}$").matcher(mBinding.txtPassword.getText().toString()).find()
-                    && Pattern.compile("^\\w+@\\w+\\.(\\w{2,3})*$").matcher(mBinding.txtEmail.getText().toString()).find()) {
-                viewModel.login(new WebView(this).getSettings().getUserAgentString(),
-                        new LoginReq(mBinding.txtEmail.getText().toString(), mBinding.txtPassword.getText().toString()));
+                    && Pattern.compile("^\\w+@\\w+\\.(\\w{2,3})*$").matcher(mBinding.txtEmail.getText().toString()).find()
+                    && mBinding.txtRepassword.getText().toString().equals(mBinding.txtPassword.getText().toString())) {
+                viewModel.register(new WebView(this).getSettings().getUserAgentString(),
+                        new RegisterReq(mBinding.txtEmail.getText().toString(),
+                                mBinding.txtPassword.getText().toString(),
+                                mBinding.txtFirstName.getText().toString(),
+                                mBinding.txtLastName.getText().toString()));
                 mBinding.loading.setVisibility(View.VISIBLE);
             } else validate();
         });
-        mBinding.txtSignUp.setOnClickListener(view -> startActivity(new Intent(this, RegisterActivity.class)));
+        mBinding.txtSignin.setOnClickListener(view -> startActivity(new Intent(this, LoginActivity.class)));
         mBinding.txtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                validate();
+            }
+        });
+        mBinding.txtRepassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -97,12 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         viewModel.getLiveData().observe(this, response -> {
             Log.d(TAG, "observe: userResponse = " + response);
             mBinding.loading.setVisibility(View.INVISIBLE);
-            this.getSharedPreferences("token", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("accessToken", response.getAccessToken())
-                    .putString("refreshToken", response.getRefreshToken())
-                    .apply();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, LoginActivity.class));
         });
     }
 
@@ -112,11 +115,15 @@ public class LoginActivity extends AppCompatActivity {
         else if (!Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[\\w\\W]{8,16}$").matcher(mBinding.txtPassword.getText().toString()).find())
             mBinding.txtValidPassword.setText("Mật khẩu yếu");
         else mBinding.txtValidPassword.setText("");
+        if (!mBinding.txtRepassword.getText().toString().equals(mBinding.txtPassword.getText().toString())) {
+            mBinding.txtValidRepassword.setText("Mật khẩu không khớp");
+        } else mBinding.txtValidRepassword.setText("");
         if (!Pattern.compile("^\\w+@\\w+\\.(\\w{2,3})*$").matcher(mBinding.txtEmail.getText().toString()).find())
             mBinding.txtValidEmail.setText("Vui lòng nhập đúng định dạng email");
         else mBinding.txtValidEmail.setText("");
-        mBinding.btnLogin.setEnabled(Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[\\w\\W]{8,16}$").matcher(mBinding.txtPassword.getText().toString()).find()
-                && Pattern.compile("^\\w+@\\w+\\.(\\w{2,3})*$").matcher(mBinding.txtEmail.getText().toString()).find());
+        mBinding.btnRegister.setEnabled(Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_])[\\w\\W]{8,16}$").matcher(mBinding.txtPassword.getText().toString()).find()
+                && Pattern.compile("^\\w+@\\w+\\.(\\w{2,3})*$").matcher(mBinding.txtEmail.getText().toString()).find()
+                && mBinding.txtRepassword.getText().toString().equals(mBinding.txtPassword.getText().toString()));
     }
 
     @Override

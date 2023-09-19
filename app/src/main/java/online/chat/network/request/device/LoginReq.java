@@ -1,4 +1,4 @@
-package online.chat.network.request.user;
+package online.chat.network.request.device;
 
 public class LoginReq {
     private String email;
@@ -23,5 +23,13 @@ public class LoginReq {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginReq{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

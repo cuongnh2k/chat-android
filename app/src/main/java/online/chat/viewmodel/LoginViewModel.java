@@ -5,14 +5,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import online.chat.network.base.BaseResponse;
-import online.chat.network.request.user.LoginReq;
-import online.chat.network.response.user.LoginRes;
-import online.chat.repository.DeviceRepository;
-
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import online.chat.network.base.BaseResponse;
+import online.chat.network.request.device.LoginReq;
+import online.chat.network.response.device.LoginRes;
+import online.chat.repository.DeviceRepository;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,22 +33,22 @@ public class LoginViewModel extends ViewModel {
         this.userRepository = userRepository;
     }
 
-    public void login(LoginReq loginReq) {
-        Call<BaseResponse<LoginRes>> call = userRepository.login(loginReq);
-        call.enqueue(new Callback<BaseResponse<LoginRes>>() {
+    public void login(String userAgent, LoginReq req) {
+        Call<BaseResponse<String>> call = userRepository.login(userAgent, req);
+        call.enqueue(new Callback<BaseResponse<String>>() {
             @Override
-            public void onResponse(@NonNull Call<BaseResponse<LoginRes>> call, @NonNull Response<BaseResponse<LoginRes>> response) {
+            public void onResponse(@NonNull Call<BaseResponse<String>> call, @NonNull Response<BaseResponse<String>> response) {
                 Timber.d(response.body().toString());
-                BaseResponse<LoginRes> res = response.body();
-                if (res.isSuccess()) {
-                    liveData.setValue(res.getData());
-                } else {
-                    errorMessageLiveData.setValue(response.body().getMessage());
-                }
+//                BaseResponse<LoginRes> res = response.body();
+//                if (res.isSuccess()) {
+//                    liveData.setValue(res.getData());
+//                } else {
+//                    errorMessageLiveData.setValue(response.body().getMessage());
+//                }
             }
 
             @Override
-            public void onFailure(@NonNull Call<BaseResponse<LoginRes>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BaseResponse<String>> call, @NonNull Throwable t) {
                 Timber.d(t);
                 errorMessageLiveData.setValue(t.getMessage());
             }

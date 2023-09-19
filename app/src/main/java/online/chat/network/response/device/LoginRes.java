@@ -1,4 +1,4 @@
-package online.chat.network.response.user;
+package online.chat.network.response.device;
 
 public class LoginRes {
     private String accessToken;

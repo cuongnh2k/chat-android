@@ -4,16 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import online.chat.databinding.ActivityLoginBinding;
-import online.chat.network.request.user.LoginReq;
-import online.chat.viewmodel.LoginViewModel;
-
 import dagger.hilt.android.AndroidEntryPoint;
+import online.chat.databinding.ActivityLoginBinding;
+import online.chat.network.request.device.LoginReq;
+import online.chat.viewmodel.LoginViewModel;
 import timber.log.Timber;
 
 /**
@@ -39,7 +39,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initView() {
         observe();
-        viewModel.login(new LoginReq("cuongnh2k@gmail.com", "12345aA@"));
+        viewModel.login(new WebView(this).getSettings().getUserAgentString(),
+                new LoginReq("cuongnh2k@gmail.com", "12345aA@"));
     }
 
     private void observe() {

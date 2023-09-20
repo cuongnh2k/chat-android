@@ -41,8 +41,7 @@ public class RegisterViewModel extends ViewModel {
                 BaseResponse res = response.body();
                 if (!res.isSuccess()) {
                     errorMessageLiveData.setValue(response.body().getMessage());
-                }
-                else {
+                } else {
                     liveData.setValue("");
                 }
             }
@@ -55,7 +54,7 @@ public class RegisterViewModel extends ViewModel {
         });
     }
 
-    public LiveData<Object> getLiveData() {
+    public LiveData<String> getLiveData() {
         return liveData;
     }
 

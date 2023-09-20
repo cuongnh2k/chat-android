@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import online.chat.network.base.BaseResponse;
+import online.chat.network.request.device.ActiveDeviceReq;
 import online.chat.network.request.device.LoginReq;
 import online.chat.network.response.device.LoginRes;
 import online.chat.repository.DeviceRepository;
@@ -26,9 +27,13 @@ import timber.log.Timber;
 public class LoginViewModel extends ViewModel {
     private final DeviceRepository deviceRepository;
 
-    private final MutableLiveData<LoginRes> liveData = new MutableLiveData<>();
+    private final MutableLiveData<LoginRes> loginSuccess = new MutableLiveData<>();
 
-    private final MutableLiveData<String> errorMessageLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> loginFail = new MutableLiveData<>();
+
+    private final MutableLiveData<String> activeDeviceSuccess = new MutableLiveData<>();
+
+    private final MutableLiveData<String> activeDeviceFail = new MutableLiveData<>();
 
     @Inject
     public LoginViewModel(DeviceRepository deviceRepository) {
@@ -43,25 +48,55 @@ public class LoginViewModel extends ViewModel {
                 Timber.d(response.body().toString());
                 BaseResponse res = response.body();
                 if (res.isSuccess()) {
-                    liveData.setValue(new Gson().fromJson(new Gson().toJson(res.getData()), LoginRes.class));
+                    loginSuccess.setValue(new Gson().fromJson(new Gson().toJson(res.getData()), LoginRes.class));
                 } else {
-                    errorMessageLiveData.setValue(response.body().getMessage());
+                    loginFail.setValue(response.body().getMessage());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<BaseResponse> call, @NonNull Throwable t) {
                 Timber.d(t);
-                errorMessageLiveData.setValue(t.getMessage());
+                loginFail.setValue(t.getMessage());
             }
         });
     }
 
-    public LiveData<LoginRes> getLiveData() {
-        return liveData;
+    public LiveData<LoginRes> loginSuccess() {
+        return loginSuccess;
     }
 
-    public LiveData<String> getErrorMessageLiveData() {
-        return errorMessageLiveData;
+    public LiveData<String> loginFail() {
+        return loginFail;
+    }
+
+    public void activeDevice(String userAgent, ActiveDeviceReq req) {
+        Call<BaseResponse> call = deviceRepository.activeDevice(userAgent, req);
+        call.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<BaseResponse> call, @NonNull Response<BaseResponse> response) {
+                Timber.d(response.body().toString());
+                BaseResponse res = response.body();
+                if (res.isSuccess()) {
+                    activeDeviceSuccess.setValue("");
+                } else {
+                    activeDeviceFail.setValue(response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BaseResponse> call, @NonNull Throwable t) {
+                Timber.d(t);
+                activeDeviceFail.setValue(t.getMessage());
+            }
+        });
+    }
+
+    public LiveData<String> activeDeviceSuccess() {
+        return activeDeviceSuccess;
+    }
+
+    public LiveData<String> activeDeviceFail() {
+        return activeDeviceFail;
     }
 }

@@ -10,4 +10,6 @@
     <string name="prompt_repassword">Nhập lại mật khẩu</string>
     <string name="prompt_first_name">Tên</string>
     <string name="prompt_last_name">Họ</string>
+    <string name="prompt_code">Code</string>
+    <string name="prompt_send">Gửi</string>
 </resources>

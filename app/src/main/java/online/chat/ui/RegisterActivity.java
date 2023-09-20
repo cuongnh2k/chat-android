@@ -14,12 +14,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.regex.Pattern;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import online.chat.databinding.ActivityRegisterBinding;
 import online.chat.network.request.user.RegisterReq;
 import online.chat.viewmodel.LoginViewModel;
 import online.chat.viewmodel.RegisterViewModel;
 import timber.log.Timber;
 
+@AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getName();
     ActivityRegisterBinding mBinding;
